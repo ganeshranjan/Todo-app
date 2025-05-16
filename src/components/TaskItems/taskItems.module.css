@@ -1,0 +1,63 @@
+
+.listItem {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+}
+
+.itemContainer {
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.editItem {
+    
+}
+
+.taskLable {
+    font-size: large;
+    padding-left: 20px;
+}
+
+.editDoneCss {
+    display: none;
+}
+
+.taskLableDone {
+    text-decoration: line-through;
+    font-size: large;
+    padding-left: 20px;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px;
+    
+}
+
+.buttonContainer button {
+    background-color: #3b82f6;
+    width: 65px;
+    height: 25px;
+    margin-left: 10px;
+    /* padding: 40px; */
+    
+}
+
+.buttonContainer button:nth-child(3) {
+  background-color: #ef4444;
+  color: white;
+}
+
+.itemContainer :checked {
+    accent-color: rgb(74, 152, 74);
+}
+
+.buttonContainer button :hover {
+
+}
