@@ -4,23 +4,17 @@ import Input from '../Input/input';
 import Button from '../Buttons/button';
 import TaskItems from '../TaskItems/taskItems';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask, toggleTask, deleteToggle, editToggle } from '../../redux/actions/taskAction';
+import { addTask,clearAll, toggleTask, deleteToggle, editToggle } from '../../redux/actions/taskAction';
 
 const TodoList = () => {
   
   const [taskValue, setTaskValue] = useState("");
-  // const [taskList, setTaskList] = useState([]);
-  const [filteredTaskList, setFilteredTaskList] = useState([])
   const [filterType, setFilterType] = useState('all');
 
   const dispatch = useDispatch();
   const taskList = useSelector((state) => {
-    console.log("state", state)
     return state.taskList
   }) 
-//  useEffect(() => {
-//     // setTaskList(pointList)
-//   }, [filteredTaskList, pointList])
 
   const addTaskHandler = () => {
     if(taskValue.trim()){
@@ -47,25 +41,13 @@ const TodoList = () => {
    dispatch(editToggle(id, updatedValue))
   }
 
-  const filterTaskList = () => {
-  if (filterType === 'all') {
-    return taskList;
-  } else if (filterType === 'completed') {
-    return taskList.filter((task) => task.completed);
-  } else if (filterType === 'pending') {
-    return taskList.filter((task) => !task.completed);
-  } else if (filterType === 'clearAll') {
-      setTaskList([])
-    return taskList
-  }
-};
+   const filteredTaskList = taskList.filter((task) => {
+    if (filterType === 'all') return true;
+    if (filterType === 'completed') return task.completed;
+    if (filterType === 'pending') return !task.completed;
+    return true;
+  });
 
-// Update the filteredTaskList state
-useEffect(() => {
-  setFilteredTaskList(filterTaskList());
-}, [taskList, filterType, filterTaskList]);
-
-// Update the filterType state when a filter button is clicked
 const handleFilterAll = () => {
   setFilterType('all');
 };
@@ -79,8 +61,9 @@ const handleFilterPending = () => {
 };
 
 const clearAllHandler = () => {
-  setFilterType('clearAll');
+  dispatch(clearAll())
 }
+
   return (
     <div className={styles.todoContainer}>
         <h1 className={styles.headerTodo}>TodoList</h1>
@@ -94,7 +77,7 @@ const clearAllHandler = () => {
             Add Task
           </Button>
         </div>
-        <h5>{filterType.toUpperCase()} TASK</h5>
+        <h5>{filterType?.toUpperCase()} TASK</h5>
 
         <ul style={{listStyle:"none", overflowY: "scroll", height: "calc(100% - 120px)" }}>
            {filteredTaskList.map((task, i) => {
@@ -110,7 +93,6 @@ const clearAllHandler = () => {
             )
            })}
         </ul>
-
         
       </div>
       <div className={styles.filtersbtns}>

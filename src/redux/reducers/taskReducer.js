@@ -1,10 +1,9 @@
-import { ADD_TASK, DELETE_TASK, EDIT_TASK, TOGGLE_TASK , FILTER_TASK } from "../actions/taskActionType";
+import { ADD_TASK, DELETE_TASK,CLEAR_ALL, EDIT_TASK, TOGGLE_TASK , FILTER_TASK } from "../actions/taskActionType";
 
 const initialState = [];
 
 export const taskReducer = (state = initialState, action ) => {
 
-    console.log("taskReducer",initialState, action)
     switch (action.type) {
         case ADD_TASK: 
            return [...state, action.payload];
@@ -31,6 +30,9 @@ export const taskReducer = (state = initialState, action ) => {
                     return true
                 }
             })
+        case CLEAR_ALL: 
+           return [];
+        
         default: 
             return state;
     }

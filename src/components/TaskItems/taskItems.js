@@ -10,12 +10,9 @@ const TaskItems = ({key, task, completed, onToggle, onDelete, onEdit}) => {
   const [updatedInput, setUpdatedInput] = useState(task.text);
   
   const saveHandler = () => {
-    onEdit(updatedInput, task.id)
+    onEdit(task.id, updatedInput )
     setIsEditing(!isEditing)
   }
-
-  console.log("updatedInput", updatedInput)
-
   return (
     <div>
       <li className={styles.listItem}>
