@@ -3,29 +3,29 @@ import styles from './todoList.module.css'
 import Input from '../Input/input';
 import Button from '../Buttons/button';
 import TaskItems from '../TaskItems/taskItems';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTask, toggleTask, deleteToggle, editToggle } from '../../redux/actions/taskAction';
 
 const TodoList = () => {
   
   const [taskValue, setTaskValue] = useState("");
-  const [taskList, setTaskList] = useState([]);
+  // const [taskList, setTaskList] = useState([]);
   const [filteredTaskList, setFilteredTaskList] = useState([])
   const [filterType, setFilterType] = useState('all');
 
+  const dispatch = useDispatch();
+  const taskList = useSelector((state) => {
+    console.log("state", state)
+    return state.taskList
+  }) 
+//  useEffect(() => {
+//     // setTaskList(pointList)
+//   }, [filteredTaskList, pointList])
+
   const addTaskHandler = () => {
     if(taskValue.trim()){
-      setTaskList([...taskList, 
-      { 
-        id: Date.now(),
-        text: taskValue.trim(),
-        completed: false
-      } ]);
+      dispatch(addTask(taskValue.trim()))
       setTaskValue("");
-      setFilteredTaskList([...taskList, 
-      { 
-        id: Date.now(),
-        text: taskValue.trim(),
-        completed: false
-      } ])
     }
   }
 
@@ -36,29 +36,15 @@ const TodoList = () => {
   }
 
   const taskToggleHandler = (id) => {
-    console.log("task toggle",id )
-    const updatedTaskList = taskList.map((item) => {
-      if(item.id === id) {
-        item.completed = !item.completed
-      }
-      return item
-    })
-   setTaskList(updatedTaskList)
+      dispatch(toggleTask(id))
   }
 
   const deleteTask = (id) => {
-      const updatedTaskList = taskList.filter((item) => item.id !== id)
-      setTaskList(updatedTaskList)
+          dispatch(deleteToggle(id))
   } 
 
-  const editTask = (updatedValue, id) => {
-    const updatedTaskList = taskList.map((item) => {
-        if(item.id === id) {
-          item.text = updatedValue
-        }
-        return item
-    })
-    setTaskList(updatedTaskList)
+  const editTask = (id, updatedValue) => {
+   dispatch(editToggle(id, updatedValue))
   }
 
   const filterTaskList = () => {
